@@ -48,14 +48,15 @@ import org.slf4j.LoggerFactory;
 @RestController
 public class JenkinsJobs {
 	
-	@Value("${jobs.url}")
+	@Value("${jenkins.url}")
     private String Url;
 
-    @Value("${jobs.username}")
+    @Value("${jenkins.username}")
     private String Username;
 
-    @Value("${jobs.password}")
-    private String password;
+    @Value("${jenkins.password}")
+    private String Password;
+    
     public JenkinsServer jenkins;
     //private final Long retryInterval;
     private static final Long DEFAULT_RETRY_INTERVAL = 200L;
@@ -75,14 +76,11 @@ public class JenkinsJobs {
 		this.jobsRepository = repository;
 	}
 	
-    /*@Autowired
-    private JobStatusRepo jobsrepository;*/
 	@RequestMapping(value="/jobs", method=RequestMethod.GET)
 	public JSONObject getJobs() throws Exception 
 	{
 		 try {
-	         jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
-		 //jenkins = new JenkinsServer(new URI("http://localhost:8080/"), "kit", "kit");
+	         jenkins = new JenkinsServer(new URI(Url), Username, Password);
 	         List<String> jobnames = new ArrayList<String>();    
 	         Map<String, Job> jobs = jenkins.getJobs();
 	         //System.out.println("new jobs... :"+jobs);
@@ -109,55 +107,18 @@ public class JenkinsJobs {
 	public JSONObject StartJob(@RequestParam("buildname") String buildname) throws Exception 
 	//public void StartJob(String buildname) throws Exception
 	{
-		String status;	
-		//sessionFactory = new Configuration().configure().buildSessionFactory();
-		JSONObject jsonobj = new JSONObject();	       
+		JSONObject Jsonobj = new JSONObject();	       
 		JobStatus jobStat = new JobStatus();
 		jobStat.setBuildname(buildname);
 		jobStat.setBuildstatus("In Progress");
 		System.out.println("buildname :"+jobStat.getBuildname());
-		
-		
-		//session = sessionFactory.openSession();
-		//session.beginTransaction();
-		//session.save(jobStat);       
-		//session.getTransaction().commit();
-		JobStatus selectedJob = jobsRepository.saveAndFlush(jobStat);
-		//List<JobStatus> jobs1 = session.createQuery("FROM JobStatus").list();
-        //jobs.forEach((x) -> System.out.printf("- %s%n", x));        
-		jsonobj.put("Buildid", selectedJob.getBuildid());
-		jsonobj.put("Buildname", selectedJob.getBuildname());
-		jsonobj.put("Buildstatus", selectedJob.getBuildstatus());
-        // for(int i=0;i<jobs1.size();i++)
-        // {
-        	// System.err.println("jobs in array :"+jobs1.get(i).getBuildid()+" "+jobs1.get(i).getBuildname()+" "+jobs1.get(i).getBuildstatus());
-        // }
+		JobStatus selectedJob = jobsRepository.saveAndFlush(jobStat);    
+		Jsonobj.put("Buildid", selectedJob.getBuildid());
+		Jsonobj.put("Buildname", selectedJob.getBuildname());
+		Jsonobj.put("Buildstatus", selectedJob.getBuildstatus());
 		Thread b= new Thread(new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository));
 		b.start();
-		//List<JobStatus> jobs2 = session.createQuery("FROM JobStatus where buildid="+jobStat.getBuildid()).list();
-		//java.util.List<JobStatus> jobs=CheckStatus(jobStat.getBuildid());
-		//for(int i=0;i<jobs1.size();i++)
-//        {
-        	//System.err.println("Status of build :"+jobs2.get(i).getBuildid()+" "+jobs2.get(i).getBuildname()+" " +jobs2.get(i).getBuildstatus());
-//        }
-		//status=b.Start(sessionFactory);
-		//jobStat.setBuildstatus(status);
-		//List<JobStatus> jobs = session.createQuery("FROM JobStatus").list();
-        //jobs.forEach((x) -> System.out.printf("- %s%n", x));          
-        /*for(int i=0;i<jobs.size();i++)
-        {
-        	System.err.println("jobs in array :"+jobs.get(i).getBuildid()+" "+jobs.get(i).getBuildname()+" "+jobs.get(i).getBuildstatus());
-        }	    */
-//		jsonobj.put("Buildid",jobs2.get(0).getBuildid());
-//		jsonobj.put("Buildname",jobs2.get(0).getBuildname());
-//		jsonobj.put("Buildstatus",jobs2.get(0).getBuildstatus());
-		//JSONObject jsonobj = new JSONObject();	       
-		//JobStatus jobStat = service.createBuild(new JobStatus(buildname,"In Progress"));
-		//JobStatus jobStat = jobsrepository.saveAndFlush(new JobStatus(buildname,"In Progress"));
-		//System.out.println("repo count :"+jobStat.getBuildname()+" "+jobStat.getBuildid()+" "+jobStat.getBuildstatus());
-		//BuildThread b= new BuildThread(jobStat.getBuildid(),buildname);
-		//b.run();
-		return jsonobj;
+		return Jsonobj;
 	}
 	@RequestMapping(value="/CheckStatus",params={"buildid"},method=RequestMethod.GET)	
 	public JSONObject CheckStatus(@RequestParam("buildid") long buildid) throws Exception 
@@ -187,20 +148,20 @@ public class JenkinsJobs {
 	public JSONObject StopJob() throws Exception 
 	{
 		try{
-		//jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agilepro", "infosys@123");
+		jenkins = new JenkinsServer(new URI(Url), Username, Password);
 		while(queueItem == null)
 		{
 	           Thread.sleep(50L);
 		}
 		Build build = jenkins.getBuild(queueItem);
 	
-		JSONObject jsonobj = new JSONObject();
+		JSONObject Jsonobj = new JSONObject();
 		if(build.details().isBuilding()==true)
 		{
 		  build.Stop(true);		  	          
 		}
 	       		
-		return jsonobj; 
+		return Jsonobj; 
 		}
 		 catch (Exception e) {
 	         System.err.println(e.getMessage());
