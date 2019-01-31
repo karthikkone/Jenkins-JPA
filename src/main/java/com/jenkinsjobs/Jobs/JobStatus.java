@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.beans.factory.annotation.Value;
+
 @Entity
 public class JobStatus {
 	@Id
@@ -12,12 +14,11 @@ public class JobStatus {
 	private Long buildid;
 	private String buildname;
 	private String buildstatus;
-	
 	public JobStatus()
 	{
 		
 	}
-	public JobStatus(String buildname, String buildstatus) {
+	public JobStatus(String Password,String buildname, String buildstatus) {
 		super();
 		//this.buildid = buildid;
 		this.buildname = buildname;
@@ -32,6 +33,8 @@ public class JobStatus {
 	public String getBuildname() {
 		return buildname;
 	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

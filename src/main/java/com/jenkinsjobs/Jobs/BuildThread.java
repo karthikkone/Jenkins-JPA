@@ -51,10 +51,7 @@ public class BuildThread implements Runnable {
 		
 	}
 	@Autowired
-	public BuildThread(@Value("${jenkins.url}") String Url,@Value("${jenkins.username}") String Username,@Value("${jenkins.password}") String Password,long buildId,String buildName, JobStatusRepo jobsRepository) {
-		this.Url = Url;
-		this.Username = Username;
-		this.Password = Password;
+	public BuildThread(long buildId,String buildName, JobStatusRepo jobsRepository) {
 		this.buildId = buildId;
 		this.buildName = buildName;
 		this.jobsRepository = jobsRepository;
@@ -63,7 +60,7 @@ public class BuildThread implements Runnable {
 	@Override
 	public void run() {
 		try {
-			JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com/"), Username, Password);
+			JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 			JobWithDetails jobinfo = jenkins.getJob(this.buildName);
 			queueRef=jobinfo.build(true);
 			queueItem = jenkins.getQueueItem(queueRef);

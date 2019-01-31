@@ -72,10 +72,7 @@ public class JenkinsJobs {
      private final Logger logger = LoggerFactory.getLogger(JenkinsJobs.class);
 
 	@Autowired
-	public JenkinsJobs(@Value("${jenkins.url}") String Url,@Value("${jenkins.username}") String Username,@Value("${jenkins.password}") String Password,JobStatusRepo repository) {
-		this.Url = Url;
-		this.Username = Username;
-		this.Password = Password;
+	public JenkinsJobs(JobStatusRepo repository) {
 		this.jobsRepository = repository;
 	}
 	
@@ -119,7 +116,7 @@ public class JenkinsJobs {
 		Jsonobj.put("Buildid", selectedJob.getBuildid());
 		Jsonobj.put("Buildname", selectedJob.getBuildname());
 		Jsonobj.put("Buildstatus", selectedJob.getBuildstatus());
-		Thread b= new Thread(new BuildThread(this.Url,this.Username,this.Password,selectedJob.getBuildid(),buildname,jobsRepository));
+		Thread b= new Thread(new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository));
 		b.start();
 		return Jsonobj;
 	}
@@ -151,7 +148,7 @@ public class JenkinsJobs {
 	public JSONObject StopJob() throws Exception 
 	{
 		try{
-		jenkins = new JenkinsServer(new URI(Url), Username, Password);
+			JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 		while(queueItem == null)
 		{
 	           Thread.sleep(50L);
