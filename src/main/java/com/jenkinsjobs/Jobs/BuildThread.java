@@ -29,13 +29,13 @@ import net.sf.json.JSONObject;
 
 public class BuildThread implements Runnable {
 	
-	@Value("${jenkins.url}")
+	//@Value("${jenkins.url}")
     private String Url;
 
-    @Value("${jenkins.username}")
+    //@Value("${jenkins.username}")
     private String Username;
 
-    @Value("${jenkins.password}")
+    //@Value("${jenkins.password}")
     private String Password;
     
 	private String buildName;
@@ -51,7 +51,10 @@ public class BuildThread implements Runnable {
 		
 	}
 	@Autowired
-	public BuildThread(long buildId,String buildName, JobStatusRepo jobsRepository) {
+	public BuildThread(@Value("${jenkins.url}") String Url,@Value("${jenkins.username}") String Username,@Value("${jenkins.password}") String Password,long buildId,String buildName, JobStatusRepo jobsRepository) {
+		this.Url = Url;
+		this.Username = Username;
+		this.Password = Password;
 		this.buildId = buildId;
 		this.buildName = buildName;
 		this.jobsRepository = jobsRepository;

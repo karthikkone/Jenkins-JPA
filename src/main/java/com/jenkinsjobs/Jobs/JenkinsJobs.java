@@ -48,13 +48,13 @@ import org.slf4j.LoggerFactory;
 @RestController
 public class JenkinsJobs {
 	
-	@Value("${jenkins.url}")
+	//@Value("${jenkins.url}")
     private String Url;
 
-    @Value("${jenkins.username}")
+    //@Value("${jenkins.username}")
     private String Username;
 
-    @Value("${jenkins.password}")
+    //@Value("${jenkins.password}")
     private String Password;
     
     public JenkinsServer jenkins;
@@ -72,7 +72,10 @@ public class JenkinsJobs {
      private final Logger logger = LoggerFactory.getLogger(JenkinsJobs.class);
 
 	@Autowired
-	public JenkinsJobs(JobStatusRepo repository) {
+	public JenkinsJobs(@Value("${jenkins.url}") String Url,@Value("${jenkins.username}") String Username,@Value("${jenkins.password}") String Password,JobStatusRepo repository) {
+		this.Url = Url;
+		this.Username = Username;
+		this.Password = Password;
 		this.jobsRepository = repository;
 	}
 	
@@ -116,7 +119,7 @@ public class JenkinsJobs {
 		Jsonobj.put("Buildid", selectedJob.getBuildid());
 		Jsonobj.put("Buildname", selectedJob.getBuildname());
 		Jsonobj.put("Buildstatus", selectedJob.getBuildstatus());
-		Thread b= new Thread(new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository));
+		Thread b= new Thread(new BuildThread(this.Url,this.Username,this.Password,selectedJob.getBuildid(),buildname,jobsRepository));
 		b.start();
 		return Jsonobj;
 	}
