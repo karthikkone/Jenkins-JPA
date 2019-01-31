@@ -60,7 +60,7 @@ public class BuildThread implements Runnable {
 	@Override
 	public void run() {
 		try {
-			JenkinsServer jenkins = new JenkinsServer(new URI(Url), Username, Password);
+			JenkinsServer jenkins = new JenkinsServer(new URI(System.getenv(Url)), Username, Password);
 			JobWithDetails jobinfo = jenkins.getJob(this.buildName);
 			queueRef=jobinfo.build(true);
 			queueItem = jenkins.getQueueItem(queueRef);
