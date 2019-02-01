@@ -126,6 +126,8 @@ public class BuildThread implements Runnable {
 		{
 		jenkins.close();
 		}
+	
+	}
 	}
 	
 
