@@ -146,10 +146,10 @@ public class JenkinsJobs {
 		return null;
 	}	
 			
-	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
+	/*@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
 	public void StopJob() throws Exception 
 	{
-		/*try{
+	        try{
 			JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 		while(queueItem == null)
 		{
@@ -172,11 +172,11 @@ public class JenkinsJobs {
 		finally 
 		{
 		jenkins.close();
-		}*/
+		}
 		Thread StartBuild = Thread.currentThread();
 		System.out.println("current thread :"+StartBuild.getName());
 		StartBuild.interrupt();
 	
 	
-	}
+	}*/
 }
