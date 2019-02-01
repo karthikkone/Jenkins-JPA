@@ -27,8 +27,8 @@ import com.offbytwo.jenkins.model.QueueReference;
 
 import net.sf.json.JSONObject;
 
-public class BuildThread implements Runnable {
-	
+public class BuildThread //implements Runnable {
+{	
 	//@Value("${jenkins.url}")
     private String Url;
 
@@ -57,8 +57,9 @@ public class BuildThread implements Runnable {
 		this.jobsRepository = jobsRepository;
 	} 
 
-	@Override
-	public void run() {
+	//@Override
+	//public void run() {
+	public void startJob() {
 		try {
 			JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 			JobWithDetails jobinfo = jenkins.getJob(this.buildName);
@@ -108,7 +109,7 @@ public class BuildThread implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	/*@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
+	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
 	public JSONObject StopJob() throws Exception 
 	{
 		try{
@@ -131,12 +132,12 @@ public class BuildThread implements Runnable {
 	         System.err.println(e.getMessage());
 	         throw e;
 	     }
-		finally 
+		/*finally 
 		{
 		jenkins.close();
-		}
+		}*/
 	
-	}*/
+	}
 	}
 	
 
