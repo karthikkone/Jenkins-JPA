@@ -172,6 +172,7 @@ public class JenkinsJobs {
 		jenkins.close();
 		}*/
 		Thread StartBuild = Thread.currentThread();
+		System.out.println("current thread :"+StartBuild.getName());
 		StartBuild.interrupt();
 	
 	
