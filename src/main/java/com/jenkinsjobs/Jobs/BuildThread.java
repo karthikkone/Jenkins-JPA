@@ -95,6 +95,15 @@ public class BuildThread implements Runnable {
 					jobsRepository.saveAndFlush(currentBuild);
 				});
 			}
+			
+			if (build.details().getResult() == build.details().getResult().ABORTED)
+			{
+				Optional<JobStatus> currentBuildRecord = this.jobsRepository.findById(buildId);
+				currentBuildRecord.ifPresent(currentBuild -> {
+					currentBuild.setBuildstatus("ABORTED");
+					jobsRepository.saveAndFlush(currentBuild);
+				});
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
