@@ -171,11 +171,11 @@ public class JenkinsJobs {
 	         System.err.println(e.getMessage());
 	         throw e;
 	     }
-		finally 
+		/*finally 
 		{
 		jenkins.close();
 		}
-		/*Thread StartBuild = Thread.currentThread();
+		Thread StartBuild = Thread.currentThread();
 		System.out.println("current thread :"+StartBuild.getName());
 		StartBuild.interrupt();*/
 	
