@@ -145,7 +145,7 @@ public class JenkinsJobs {
 	}	
 			
 	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
-	public JSONObject StopJob() throws Exception 
+	public void StopJob() throws Exception 
 	{
 		/*try{
 			JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
