@@ -99,7 +99,7 @@ public class BuildThread implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
+	/*@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
 	public JSONObject StopJob() throws Exception 
 	{
 		try{
@@ -127,7 +127,7 @@ public class BuildThread implements Runnable {
 		jenkins.close();
 		}*/
 	
-	}
+	}*/
 	}
 	
 
