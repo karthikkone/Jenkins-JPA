@@ -144,7 +144,7 @@ public class JenkinsJobs {
 		return null;
 	}	
 			
-	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
+	/*@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
 	public JSONObject StopJob() throws Exception 
 	{
 		try{
@@ -172,5 +172,5 @@ public class JenkinsJobs {
 		jenkins.close();
 		}
 	
-	}
+	}*/
 }
