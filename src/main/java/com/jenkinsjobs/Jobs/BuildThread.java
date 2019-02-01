@@ -44,7 +44,7 @@ public class BuildThread //implements Runnable {
 	private static QueueReference queueRef;
 	private static QueueItem queueItem;	 
 	private static Session session;
-	JenkinsServer jenkins; 
+	//JenkinsServer jenkins; 
 	private JobStatusRepo jobsRepository;
 	public BuildThread()
 	{
@@ -55,14 +55,14 @@ public class BuildThread //implements Runnable {
 		this.buildId = buildId;
 		this.buildName = buildName;
 		this.jobsRepository = jobsRepository;
-		jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+		//jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 	} 
 
 	//@Override
 	//public void run() {
 	public void startJob() {
 		try {
-			//JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+			JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 			JobWithDetails jobinfo = jenkins.getJob(this.buildName);
 			queueRef=jobinfo.build(true);
 			queueItem = jenkins.getQueueItem(queueRef);
@@ -114,7 +114,7 @@ public class BuildThread //implements Runnable {
 	public JSONObject StopJob() throws Exception 
 	{
 		try{
-		//JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+		JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 		while(queueItem == null)
 		{
 	           Thread.sleep(50L);
