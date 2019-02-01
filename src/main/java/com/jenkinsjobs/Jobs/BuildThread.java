@@ -141,10 +141,10 @@ public class BuildThread implements Runnable
 	         System.err.println(e.getMessage());
 	         throw e;
 	     }
-		/*finally 
+		finally 
 		{
 		jenkins.close();
-		}*/
+		}
 	
 	}*/
 	}
