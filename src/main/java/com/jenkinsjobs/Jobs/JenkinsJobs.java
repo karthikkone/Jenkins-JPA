@@ -116,10 +116,10 @@ public class JenkinsJobs {
 		Jsonobj.put("Buildid", selectedJob.getBuildid());
 		Jsonobj.put("Buildname", selectedJob.getBuildname());
 		Jsonobj.put("Buildstatus", selectedJob.getBuildstatus());
-		//Thread b= new Thread(new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository));
-		//b.start();
-		BuildThread b = new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository);
-		b.startJob();
+		Thread b= new Thread(new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository));
+		 b.start();
+		//BuildThread b = new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository);
+		//b.startJob();
 		return Jsonobj;
 	}
 	@RequestMapping(value="/CheckStatus",params={"buildid"},method=RequestMethod.GET)	
