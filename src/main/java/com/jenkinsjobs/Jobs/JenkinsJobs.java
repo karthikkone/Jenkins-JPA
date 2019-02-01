@@ -177,8 +177,8 @@ public class JenkinsJobs {
 		}
 		/*Thread StartBuild = Thread.currentThread();
 		System.out.println("current thread :"+StartBuild.getName());
-		StartBuild.interrupt();
+		StartBuild.interrupt();*/
 	
 	
-	}*/
+	}
 }
