@@ -56,7 +56,7 @@ public class BuildThread implements Runnable
 		this.buildId = buildId;
 		this.buildName = buildName;
 		this.jobsRepository = jobsRepository;
-		//jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+		
 	} 
 
 	@Override
@@ -64,7 +64,7 @@ public class BuildThread implements Runnable
 	//while(running)
 		//{
 		try {
-			JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+			
 			JobWithDetails jobinfo = jenkins.getJob(this.buildName);
 			queueRef=jobinfo.build(true);
 			queueItem = jenkins.getQueueItem(queueRef);
@@ -118,7 +118,7 @@ public class BuildThread implements Runnable
 	       //running = false;
 	       //interrupt();
 	       try {
-		JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+		
 		while(queueItem == null)
 		{
 	           Thread.sleep(50L);
@@ -136,35 +136,7 @@ public class BuildThread implements Runnable
 			e.printStackTrace();
 		}
 	   }
-	/*@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
-	public JSONObject StopJob() throws Exception 
-	{
-		try{
-		JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
-		while(queueItem == null)
-		{
-	           Thread.sleep(50L);
-		}
-		Build build = jenkins.getBuild(queueItem);
 	
-		JSONObject Jsonobj = new JSONObject();
-		if(build.details().isBuilding()==true)
-		{
-		  build.Stop(true);		  	          
-		}
-	       		
-		return Jsonobj; 
-		}
-		 catch (Exception e) {
-	         System.err.println(e.getMessage());
-	         throw e;
-	     }
-		finally 
-		{
-		jenkins.close();
-		}
-	
-	}*/
 	}
 	
 
