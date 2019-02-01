@@ -61,8 +61,8 @@ public class BuildThread implements Runnable
 
 	@Override
 	public void run() {
-	while(running)
-		{
+	//while(running)
+		//{
 		try {
 			JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 			JobWithDetails jobinfo = jenkins.getJob(this.buildName);
@@ -111,12 +111,30 @@ public class BuildThread implements Runnable
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
+	//}
 	}
 	
 	public void stopThread() {
-	       running = false;
+	       //running = false;
 	       //interrupt();
+	       try {
+		JenkinsServer jenkins = new JenkinsServer(new URI("http://localhost:8080/"), "kit", "kit");
+		while(queueItem == null)
+		{
+	           Thread.sleep(50L);
+		}
+		Build build = jenkins.getBuild(queueItem);
+	
+		JSONObject jsonobj = new JSONObject();
+		if(build.details().isBuilding()==true)
+		{
+		  build.Stop(true);		  	          
+		}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	   }
 	/*@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
 	public JSONObject StopJob() throws Exception 
