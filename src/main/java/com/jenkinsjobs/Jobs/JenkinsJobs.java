@@ -80,7 +80,7 @@ public class JenkinsJobs {
 	public JSONObject getJobs() throws Exception 
 	{
 		 try {
-	         jenkins = new JenkinsServer(new URI(Url), Username, Password);
+	         
 	         List<String> jobnames = new ArrayList<String>();    
 	         Map<String, Job> jobs = jenkins.getJobs();
 	         //System.out.println("new jobs... :"+jobs);
@@ -149,21 +149,7 @@ public class JenkinsJobs {
 	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
 	public void StopJob() throws Exception 
 	{
-	        try{
-			/*JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
-		while(queueItem == null)
-		{
-	           Thread.sleep(50L);
-		}
-		Build build = jenkins.getBuild(queueItem);
-	
-		JSONObject Jsonobj = new JSONObject();
-		if(build.details().isBuilding()==true)
-		{
-		  build.Stop(true);		  	          
-		}
-	       		
-		return Jsonobj; */
+	        try{			
 			BuildThread b = new BuildThread();
 		        b.stopThread();
 		}
@@ -171,13 +157,7 @@ public class JenkinsJobs {
 	         System.err.println(e.getMessage());
 	         throw e;
 	     }
-		/*finally 
-		{
-		jenkins.close();
-		}
-		Thread StartBuild = Thread.currentThread();
-		System.out.println("current thread :"+StartBuild.getName());
-		StartBuild.interrupt();*/
+		
 	
 	
 	}
