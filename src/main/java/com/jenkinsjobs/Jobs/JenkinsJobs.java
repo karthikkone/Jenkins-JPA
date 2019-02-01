@@ -146,11 +146,11 @@ public class JenkinsJobs {
 		return null;
 	}	
 			
-	/*@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
+	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
 	public void StopJob() throws Exception 
 	{
 	        try{
-			JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+			/*JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 		while(queueItem == null)
 		{
 	           Thread.sleep(50L);
@@ -163,7 +163,9 @@ public class JenkinsJobs {
 		  build.Stop(true);		  	          
 		}
 	       		
-		return Jsonobj; 
+		return Jsonobj; */
+			BuildThread b = new BuildThread();
+		        b.stopThread();
 		}
 		 catch (Exception e) {
 	         System.err.println(e.getMessage());
@@ -173,7 +175,7 @@ public class JenkinsJobs {
 		{
 		jenkins.close();
 		}
-		Thread StartBuild = Thread.currentThread();
+		/*Thread StartBuild = Thread.currentThread();
 		System.out.println("current thread :"+StartBuild.getName());
 		StartBuild.interrupt();
 	
