@@ -116,6 +116,7 @@ public class JenkinsJobs {
 		Jsonobj.put("Buildid", selectedJob.getBuildid());
 		Jsonobj.put("Buildname", selectedJob.getBuildname());
 		Jsonobj.put("Buildstatus", selectedJob.getBuildstatus());
+		Jsonobj.put("httpstatus", "307");
 		Thread b= new Thread(new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository));
 		 b.start();
 		//BuildThread b = new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository);
