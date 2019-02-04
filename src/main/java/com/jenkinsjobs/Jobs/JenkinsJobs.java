@@ -80,7 +80,7 @@ public class JenkinsJobs {
 	public JSONObject getJobs() throws Exception 
 	{
 		 try {
-	         
+	         jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 	         List<String> jobnames = new ArrayList<String>();    
 	         Map<String, Job> jobs = jenkins.getJobs();
 	         //System.out.println("new jobs... :"+jobs);
