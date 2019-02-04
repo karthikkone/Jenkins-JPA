@@ -45,7 +45,7 @@ public class BuildThread implements Runnable
 	private static QueueItem queueItem;	 
 	private static Session session;
 	private static boolean running = true;
-	//JenkinsServer jenkins; 
+	JenkinsServer jenkins; 
 	private JobStatusRepo jobsRepository;
 	public BuildThread()
 	{
