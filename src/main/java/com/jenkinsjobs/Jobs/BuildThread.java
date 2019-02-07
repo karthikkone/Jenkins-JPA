@@ -114,7 +114,7 @@ public class BuildThread implements Runnable
 	//}
 	}
 	
-	public void stopThread() {
+	public void stopThread(Long buildId) {
 	       //running = false;
 	       //interrupt();
 	       try {
