@@ -123,6 +123,7 @@ public class BuildThread implements Runnable
 					currentBuild.setBuildstatus("discontinuing..");
 					jobsRepository.saveAndFlush(currentBuild);
 				});
+		System.out.println("Current build status after stop :"+currentBuildRecord.getBuidid);
 		jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 		while(queueItem == null)
 		{
