@@ -147,12 +147,12 @@ public class JenkinsJobs {
 		return null;
 	}	
 			
-	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
-	public void StopJob() throws Exception 
+	@RequestMapping(value="/Stopjobs",params={"buildid"},method=RequestMethod.GET)
+	public void StopJob(@RequestParam("buildid") long buildid) throws Exception 
 	{
 	        try{			
 			BuildThread b = new BuildThread();
-		        b.stopThread();
+		        b.stopThread(buildid);
 		}
 		 catch (Exception e) {
 	         System.err.println(e.getMessage());
