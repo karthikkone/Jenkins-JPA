@@ -151,9 +151,12 @@ public class JenkinsJobs {
 	public void StopJob(@RequestParam("buildid") long buildid) throws Exception 
 	{
 	        try{		
-			JobStatus job = jobsRepository.getOne(buildid);
-			job.setBuildstatus("Discontinued..");
-			jobsRepository.saveAndFlush(job);    
+			Optional<JobStatus> currentBuildRecord = this.jobsRepository.findById(buildid);
+				currentBuildRecord.ifPresent(currentBuild -> {
+					currentBuild.setBuildstatus("discontinuing..");
+					jobsRepository.saveAndFlush(currentBuild);
+				});	
+			
 			BuildThread b = new BuildThread();
 		        b.stopThread();
 		}
