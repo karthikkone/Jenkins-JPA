@@ -152,7 +152,7 @@ public class JenkinsJobs {
 	{
 	        try{		
 			JobStatus job = jobsRepository.getOne(buildid);
-			job.setBuildstatus("Discontinued..")
+			job.setBuildstatus("Discontinued..");
 			jobsRepository.saveAndFlush(job);    
 			BuildThread b = new BuildThread();
 		        b.stopThread(buildid);
