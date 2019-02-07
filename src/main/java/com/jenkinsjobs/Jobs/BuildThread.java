@@ -118,6 +118,11 @@ public class BuildThread implements Runnable
 	       //running = false;
 	       //interrupt();
 	       try {
+	       Optional<JobStatus> currentBuildRecord = this.jobsRepository.findById(buildId);
+				currentBuildRecord.ifPresent(currentBuild -> {
+					currentBuild.setBuildstatus("discontinuing..");
+					jobsRepository.saveAndFlush(currentBuild);
+				});
 		jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 		while(queueItem == null)
 		{
