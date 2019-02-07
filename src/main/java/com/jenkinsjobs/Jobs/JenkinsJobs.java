@@ -150,7 +150,10 @@ public class JenkinsJobs {
 	@RequestMapping(value="/Stopjobs",params={"buildid"},method=RequestMethod.GET)
 	public void StopJob(@RequestParam("buildid") long buildid) throws Exception 
 	{
-	        try{			
+	        try{		
+			JobStatus job = jobsRepository.getOne(buildid);
+			job.setBuildstatus("Discontinued..")
+			jobsRepository.saveAndFlush(job);    
 			BuildThread b = new BuildThread();
 		        b.stopThread(buildid);
 		}
