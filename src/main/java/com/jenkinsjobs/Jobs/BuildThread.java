@@ -86,7 +86,7 @@ public class BuildThread implements Runnable
 			if(build.details().getResult() == build.details().getResult().SUCCESS) {
 				Optional<JobStatus> currentBuildRecord = this.jobsRepository.findById(buildId);
 				currentBuildRecord.ifPresent(currentBuild -> {
-					currentBuild.setBuildstatus("SUCCESS");
+					currentBuild.setBuildstatus("Succesfully Completed");
 					jobsRepository.saveAndFlush(currentBuild);
 				});
 			}
@@ -95,7 +95,7 @@ public class BuildThread implements Runnable
 			if (build.details().getResult() == build.details().getResult().FAILURE) {
 				Optional<JobStatus> currentBuildRecord = this.jobsRepository.findById(buildId);
 				currentBuildRecord.ifPresent(currentBuild -> {
-					currentBuild.setBuildstatus("FAILURE");
+					currentBuild.setBuildstatus("Build Failed");
 					jobsRepository.saveAndFlush(currentBuild);
 				});
 			}
@@ -104,7 +104,7 @@ public class BuildThread implements Runnable
 			{
 				Optional<JobStatus> currentBuildRecord = this.jobsRepository.findById(buildId);
 				currentBuildRecord.ifPresent(currentBuild -> {
-					currentBuild.setBuildstatus("ABORTED");
+					currentBuild.setBuildstatus("Build Stopped");
 					jobsRepository.saveAndFlush(currentBuild);
 				});
 			}
