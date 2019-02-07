@@ -110,7 +110,7 @@ public class JenkinsJobs {
 		JSONObject Jsonobj = new JSONObject();	       
 		JobStatus jobStat = new JobStatus();
 		jobStat.setBuildname(buildname);
-		jobStat.setBuildstatus("In Progress");
+		jobStat.setBuildstatus("In Progress..");
 		System.out.println("buildname :"+jobStat.getBuildname());
 		JobStatus selectedJob = jobsRepository.saveAndFlush(jobStat);    
 		Jsonobj.put("Buildid", selectedJob.getBuildid());
