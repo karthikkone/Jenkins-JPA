@@ -155,7 +155,7 @@ public class JenkinsJobs {
 			job.setBuildstatus("Discontinued..");
 			jobsRepository.saveAndFlush(job);    
 			BuildThread b = new BuildThread();
-		        b.stopThread(buildid);
+		        b.stopThread();
 		}
 		 catch (Exception e) {
 	         System.err.println(e.getMessage());
