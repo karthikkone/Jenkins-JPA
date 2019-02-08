@@ -111,7 +111,7 @@ public class JenkinsJobs {
 		JSONObject Jsonobj = new JSONObject();	       
 		JobStatus jobStat = new JobStatus();
 		jobStat.setBuildname(buildname);
-		jobStat.setBuildstatus("In Progress..");
+		jobStat.setBuildstatus("Request In Progress..");
 		System.out.println("buildname :"+jobStat.getBuildname());
 		JobStatus selectedJob = jobsRepository.saveAndFlush(jobStat);    
 		Jsonobj.put("Buildid", selectedJob.getBuildid());
@@ -151,12 +151,7 @@ public class JenkinsJobs {
 	@RequestMapping(value="/Stopjobs",params={"buildid"},method=RequestMethod.GET)
 	public void StopJob(@RequestParam("buildid") long buildid) throws Exception 
 	{
-	        try{		
-			Optional<JobStatus> currentBuildRecord = this.jobsRepository.findById(buildid);
-				currentBuildRecord.ifPresent(currentBuild -> {
-					currentBuild.setBuildstatus("discontinuing..");
-					jobsRepository.saveAndFlush(currentBuild);
-				});	
+	        try{					
 			
 			BuildThread b = new BuildThread();
 		        b.stopThread();
