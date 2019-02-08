@@ -148,8 +148,8 @@ public class JenkinsJobs {
 		return null;
 	}	
 			
-	@RequestMapping(value="/Stopjobs",params={"buildid"},method=RequestMethod.GET)
-	public void StopJob(@RequestParam("buildid") long buildid) throws Exception 
+	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
+	public void StopJob() throws Exception 
 	{
 	        try{					
 			
