@@ -86,7 +86,7 @@ public class BuildThread implements Runnable
 			if(build.details().getResult() == build.details().getResult().SUCCESS) {
 				Optional<JobStatus> currentBuildRecord = this.jobsRepository.findById(buildId);
 				currentBuildRecord.ifPresent(currentBuild -> {
-					currentBuild.setBuildstatus("Succesfully Completed");
+					currentBuild.setBuildstatus("Successfully Completed");
 					jobsRepository.saveAndFlush(currentBuild);
 				});
 			}
