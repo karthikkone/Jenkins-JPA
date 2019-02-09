@@ -64,7 +64,7 @@ public class BuildThread implements Runnable
 	//while(running)
 		//{
 		try {
-			jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+			
 			JobWithDetails jobinfo = jenkins.getJob(this.buildName);
 			queueRef=jobinfo.build(true);
 			queueItem = jenkins.getQueueItem(queueRef);
@@ -118,7 +118,7 @@ public class BuildThread implements Runnable
 	       //running = false;
 	       //interrupt();
 	       try {	       
-		jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+		
 		while(queueItem == null)
 		{
 	           Thread.sleep(50L);
