@@ -81,7 +81,7 @@ public class JenkinsJobs {
 	public JSONObject getJobs() throws Exception 
 	{
 		 try {
-	         
+	         jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 	         List<String> jobnames = new ArrayList<String>();    
 	         Map<String, Job> jobs = jenkins.getJobs();
 	         //System.out.println("new jobs... :"+jobs);
@@ -151,7 +151,7 @@ public class JenkinsJobs {
 	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
 	public void StopJob() throws Exception 
 	{
-	        try{					
+	        try{				
 			
 			BuildThread b = new BuildThread();
 		        b.stopThread();
