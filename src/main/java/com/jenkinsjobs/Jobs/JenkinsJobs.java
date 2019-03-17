@@ -1,62 +1,64 @@
 package com.jenkinsjobs.Jobs;
 
 import java.io.IOException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.io.StringReader;
 //import java.awt.List;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
-
-import javax.print.attribute.standard.JobState;
-
+import java.util.Optional;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import net.sf.json.*;
-
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
+import com.jenkinsjobs.model.JobConfiguration;
+import com.jenkinsjobs.model.JobParameter;
+import com.jenkinsjobs.model.ParameterizedBuild;
 import com.offbytwo.jenkins.JenkinsServer;
-import com.offbytwo.jenkins.client.JenkinsHttpConnection;
 import com.offbytwo.jenkins.model.Build;
-import com.offbytwo.jenkins.model.BuildResult;
 import com.offbytwo.jenkins.model.BuildWithDetails;
+import com.offbytwo.jenkins.model.JobWithDetails;
+import com.offbytwo.jenkins.model.QueueItem;
+import com.offbytwo.jenkins.model.QueueReference;
 import com.offbytwo.jenkins.model.Job;
 import com.offbytwo.jenkins.model.JobWithDetails;
-import com.offbytwo.jenkins.model.Queue;
 import com.offbytwo.jenkins.model.QueueItem;
 import com.offbytwo.jenkins.model.QueueReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 public class JenkinsJobs {
 	
-	//@Value("${jenkins.url}")
+	/*@Value("${jobs.url}")
     private String Url;
 
-    //@Value("${jenkins.username}")
+    @Value("${jobs.username}")
     private String Username;
 
-    //@Value("${jenkins.password}")
-    private String Password;
-    
+    @Value("${jobs.password}")
+    private String password;*/
     public JenkinsServer jenkins;
     //private final Long retryInterval;
     private static final Long DEFAULT_RETRY_INTERVAL = 200L;
@@ -70,17 +72,21 @@ public class JenkinsJobs {
     private JobStatusRepo jobsrepository;*/
      private JobStatusRepo jobsRepository;
      private final Logger logger = LoggerFactory.getLogger(JenkinsJobs.class);
-
+     private SpringTemplateEngine templateEngine;
+     
 	@Autowired
-	public JenkinsJobs(JobStatusRepo repository) {
+	public JenkinsJobs(JobStatusRepo repository, SpringTemplateEngine templateEngine) {
 		this.jobsRepository = repository;
+		this.templateEngine = templateEngine;
 	}
 	
+    /*@Autowired
+    private JobStatusRepo jobsrepository;*/
 	@RequestMapping(value="/jobs", method=RequestMethod.GET)
 	public JSONObject getJobs() throws Exception 
 	{
-		 try {
-	         jenkins = new JenkinsServer(new URI(Url), Username, Password);
+		 try {	         
+		 jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 	         List<String> jobnames = new ArrayList<String>();    
 	         Map<String, Job> jobs = jenkins.getJobs();
 	         //System.out.println("new jobs... :"+jobs);
@@ -104,21 +110,131 @@ public class JenkinsJobs {
 	}
 	
 	@RequestMapping(value="/Startjobs",params={"buildname"},method=RequestMethod.GET)	
-	public JSONObject StartJob(@RequestParam("buildname") String buildname) throws Exception 
+	public ParameterizedBuild StartJob(@RequestParam("buildname") String buildname) throws Exception 
 	//public void StartJob(String buildname) throws Exception
 	{
-		JSONObject Jsonobj = new JSONObject();	       
+		//JobParameter jobParams = new JobParameter();
+		ParameterizedBuild buildParams = new ParameterizedBuild();
+		List<JobParameter> paramlist = new ArrayList<JobParameter>();
+		try {
+		JSONObject Jsonobj = new JSONObject();	 
+		HashMap<String, String> Paramtypes = new HashMap<String, String>();
+		HashMap<String, String>  Params = new HashMap<String, String>();
+		//jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+		jenkins = new JenkinsServer(new URI("http://localhost:8080/"), "kirti", "kirti");
+		JobWithDetails jobinfo = jenkins.getJob(buildname);
+		String jobxml = jenkins.getJobXml(buildname);		
+		System.out.println("XML :"+jobxml);	
+		org.w3c.dom.Document doc = convertStringToXMLDocument(jobxml);	
+		NodeList list = doc.getElementsByTagName("parameterDefinitions");
+	    for (int i=0; i< list.getLength(); i++) {	    	
+	    Node Param = list.item(i);
+        System.out.println("list size :"+list.getLength());
+	    if(Param.hasChildNodes()){	        	
+	        	
+	       for(int j=0; j< Param.getChildNodes().getLength(); j++)
+	        	{
+	    	   		Node ParamType = Param.getChildNodes().item(j).getNextSibling();
+	    	   		if(ParamType.getNodeType()==org.dom4j.Node.ELEMENT_NODE)
+	    	   		{	            	
+	    	   		
+	            	if(ParamType != null && ParamType.hasChildNodes())
+	            	{	
+	            	 switch(ParamType.getNodeName())
+	            	 {
+	            	 case "hudson.model.StringParameterDefinition":
+	            	 JobParameter jobParams = new JobParameter();
+	            	 Node ParamName = ParamType.getChildNodes().item(0).getNextSibling();
+	            	 Node ParamValue = ParamType.getChildNodes().item(0).getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling();
+	            	 System.out.println("ParamName in paramtypes:"+ParamName.getNodeName());
+	            	 System.out.println("ParamNameValues in paramtypes:"+ParamName.getChildNodes().item(0).getNodeValue());
+	            	 System.out.println("ParamValues in paramtypes:"+ParamValue.getChildNodes().item(0).getNodeValue());
+	            	 jobParams.setParamName(ParamName.getChildNodes().item(0).getNodeValue());
+	            	 jobParams.setValue(ParamValue.getChildNodes().item(0).getNodeValue());
+	            	 jobParams.setParamType(ParamType.getNodeName());
+	            	 Params.put(ParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());
+	            	 //System.out.println("jobparams :"+jobParams);
+	            	 paramlist.add(jobParams);
+	            	 break;
+	            	 
+	            	 case "hudson.model.BooleanParameterDefinition":
+	            		 JobParameter booleanJobParams = new JobParameter();
+		            	 Node booleanParamName = ParamType.getChildNodes().item(0).getNextSibling();
+		            	 Node booleanParamValue = ParamType.getChildNodes().item(0).getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling();
+		            	 System.out.println("ParamName in paramtypes:"+booleanParamName.getNodeName());
+		            	 System.out.println("ParamNameValues in paramtypes:"+booleanParamName.getChildNodes().item(0).getNodeValue());
+		            	 System.out.println("ParamValues in paramtypes:"+booleanParamValue.getChildNodes().item(0).getNodeValue());
+		            	 booleanJobParams.setParamName(booleanParamName.getChildNodes().item(0).getNodeValue());
+		            	 booleanJobParams.setValue(booleanParamValue.getChildNodes().item(0).getNodeValue());
+		            	 booleanJobParams.setParamType(ParamType.getNodeName());
+		            	 Params.put(booleanParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());
+		            	 //System.out.println("jobparams :"+jobParams);
+		            	 paramlist.add(booleanJobParams);
+		            	 break;
+	            	 case "hudson.model.ChoiceParameterDefinition":
+	            		 JobParameter choiceJobParams = new JobParameter();
+	            		 NamedNodeMap choices = ParamType.getChildNodes().item(0).getAttributes();
+	            		 //for(int m=0; m< choices.getChildNodes().getLength(); m++)
+	     	        	//{
+	     	    	   		//Node ParamType = Param.getChildNodes().item(j).getNextSibling();
+	     	    	   		//if(ParamType.getNodeType()==org.dom4j.Node.ELEMENT_NODE)
+	     	    	   		//{	 
+	            		 //for (int l=0; l< choiceList.getLength(); l++) {	    	
+	            			    //Node choice = list.item(l);
+	            			    System.out.println("choice node :"+choices);
+		            	 /*Node choiceParamName = ParamType.getChildNodes().item(0).getNextSibling();
+		            	 Node choiceParamValue = ParamType.getChildNodes().item(0).getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling();
+		            	 System.out.println("ParamName in paramtypes:"+choiceParamName.getNodeName());
+		            	 System.out.println("ParamNameValues in paramtypes:"+choiceParamName.getChildNodes().item(0).getNodeValue());
+		            	 System.out.println("ParamValues in paramtypes:"+choiceParamValue.getChildNodes().item(0).getNodeValue());
+		            	 choiceJobParams.setParamName(choiceParamName.getChildNodes().item(0).getNodeValue());
+		            	 choiceJobParams.setValue(choiceParamValue.getChildNodes().item(0).getNodeValue());
+		            	 choiceJobParams.setParamType(ParamType.getNodeName());
+		            	 Params.put(choiceParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());
+		            	 //System.out.println("jobparams :"+jobParams);
+		            	 paramlist.add(choiceJobParams);*/
+	            		 break;
+	            		 
+	            	 }
+	            	}	
+	            	
+	            	//}	            	
+	            	else
+	            	{
+	            		break;
+	            	}	             	            	
+	        	}
+	        	}
+	         }
+	   	}
+		  
+		System.out.println("After converting string to xml :"+doc.getFirstChild().getNodeName());	
 		JobStatus jobStat = new JobStatus();
 		jobStat.setBuildname(buildname);
-		jobStat.setBuildstatus("In Progress");
-		System.out.println("buildname :"+jobStat.getBuildname());
-		JobStatus selectedJob = jobsRepository.saveAndFlush(jobStat);    
+		jobStat.setBuildstatus("In Progress");	
+		JobStatus selectedJob = jobsRepository.saveAndFlush(jobStat);   
 		Jsonobj.put("Buildid", selectedJob.getBuildid());
 		Jsonobj.put("Buildname", selectedJob.getBuildname());
-		Jsonobj.put("Buildstatus", selectedJob.getBuildstatus());
-		Thread b= new Thread(new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository));
+		Jsonobj.put("Buildstatus", selectedJob.getBuildstatus());		
+		Jsonobj.put("Paramtype",Paramtypes);	
+		Jsonobj.put("BuildParams",Params);
+		buildParams.setBuildId(selectedJob.getBuildid());
+		buildParams.setBuildName(selectedJob.getBuildname());
+		buildParams.setBuildStatus(selectedJob.getBuildstatus());
+		buildParams.setBuildParams(paramlist);
+		if(Params.size() == 0)
+		{
+		Thread b= new Thread(new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository,Params));
 		b.start();
-		return Jsonobj;
+		}
+		//BuildThread b = new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository);
+		//b.startJob();
+		return buildParams;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	@RequestMapping(value="/CheckStatus",params={"buildid"},method=RequestMethod.GET)	
 	public JSONObject CheckStatus(@RequestParam("buildid") long buildid) throws Exception 
@@ -126,6 +242,8 @@ public class JenkinsJobs {
 	{
 		try
 		{
+		//jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agilepro", "infosys@123");
+		jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 		JSONObject Jsonobj = new JSONObject();
 		//SessionFactory sessionFactory = s;
 		
@@ -143,34 +261,95 @@ public class JenkinsJobs {
 		}
 		return null;
 	}	
-			
-	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
-	public JSONObject StopJob() throws Exception 
+	@RequestMapping(value="/StartjobsWithParams",params={"buildid","buildname"},method=RequestMethod.POST)	
+	//public JSONObject StartJobWithParams(@RequestParam("buildid") long buildid,@RequestParam("buildname") String buildname,@RequestParam("Params") HashMap<String, String> Params) throws Exception 
+	public void StartjobsWithParams(long buildid,String buildname,@RequestBody Map<String, String> Params) throws Exception
 	{
-		try{
-			JenkinsServer jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
-		while(queueItem == null)
-		{
-	           Thread.sleep(50L);
-		}
-		Build build = jenkins.getBuild(queueItem);
+	//public void StartJob(String buildname) throws Exception
 	
-		JSONObject Jsonobj = new JSONObject();
-		if(build.details().isBuilding()==true)
-		{
-		  build.Stop(true);		  	          
+		try {
+			System.out.println("Parametrs received from URL :"+Params);
+			Thread build= new Thread(new BuildThread(buildid,buildname,jobsRepository,Params));
+			build.start();
+			
 		}
-	       		
-		return Jsonobj; 
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		//return null;
+		
+	}		
+	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
+	public void StopJob() throws Exception 
+	{
+	        try{				
+			
+			BuildThread b = new BuildThread();
+		        b.stopThread();
 		}
 		 catch (Exception e) {
 	         System.err.println(e.getMessage());
 	         throw e;
 	     }
-		finally 
-		{
-		jenkins.close();
-		}
+		
+	
 	
 	}
+	
+	//create new job
+	@RequestMapping(value="/createjob", method=RequestMethod.POST)
+	public ResponseEntity createJob(@RequestBody JobConfiguration jobDetails) {
+		String xml = "hello";
+		HashMap<String,String> jobConfig = new HashMap<String,String>();
+		Context context = new Context();
+		context.setVariable("jobConfig", jobConfig);
+		
+		jobConfig.put("description", jobDetails.getDescription());
+		jobConfig.put("github_project_url", jobDetails.getGithubProject());
+		jobConfig.put("github_credential_id", jobDetails.getGithubCredentialId());
+		jobConfig.put("git_branch", jobDetails.getGitBranch());
+		jobConfig.put("batch_script", jobDetails.getBatchScript());
+		jobConfig.put("targets", jobDetails.getBuildTargets());
+		String xmlConfig = this.templateEngine.process("job-config", context);
+		
+		
+		try {
+			jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+			jenkins.createJob(jobDetails.getJobName(), xmlConfig, true);
+			
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	
+	public org.w3c.dom.Document convertStringToXMLDocument(String xmlString)
+    {
+        //Parser that produces DOM object trees from XML content
+		
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+         
+        //API to obtain DOM Document instance
+        DocumentBuilder builder = null;
+        try
+        {
+            //Create DocumentBuilder with default configuration
+            builder = factory.newDocumentBuilder();             
+            //Parse the content to Document object
+            //String jobxml = jenkins.getJobXml(buildname);
+            org.w3c.dom.Document doc = builder.parse(new InputSource(new StringReader(xmlString)));
+            return doc;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
