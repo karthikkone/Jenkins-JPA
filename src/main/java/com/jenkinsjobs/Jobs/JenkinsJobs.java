@@ -95,13 +95,12 @@ public class JenkinsJobs {
 	@RequestMapping(value="/jobs", method=RequestMethod.GET)
 	public JSONObject getJobs() throws Exception 
 	{
-<<<<<<< HEAD
+
 		 try {	         
 		 jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
-=======
-		 try {
-	         
->>>>>>> bae663effd73cc48aa109f0ca5580f76bd1c824b
+
+		 try {	         
+
 	         List<String> jobnames = new ArrayList<String>();    
 	         Map<String, Job> jobs = jenkins.getJobs();
 	         //System.out.println("new jobs... :"+jobs);
@@ -226,7 +225,6 @@ public class JenkinsJobs {
 		System.out.println("After converting string to xml :"+doc.getFirstChild().getNodeName());	
 		JobStatus jobStat = new JobStatus();
 		jobStat.setBuildname(buildname);
-<<<<<<< HEAD
 		jobStat.setBuildstatus("In Progress");	
 		JobStatus selectedJob = jobsRepository.saveAndFlush(jobStat);   
 		Jsonobj.put("Buildid", selectedJob.getBuildid());
@@ -251,7 +249,6 @@ public class JenkinsJobs {
 			e.printStackTrace();
 		}
 		return null;
-=======
 		jobStat.setBuildstatus("Request In Progress..");
 		System.out.println("buildname :"+jobStat.getBuildname());
 		JobStatus selectedJob = jobsRepository.saveAndFlush(jobStat);    
@@ -264,7 +261,6 @@ public class JenkinsJobs {
 		//BuildThread b = new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository);
 		//b.startJob();
 		return Jsonobj;
->>>>>>> bae663effd73cc48aa109f0ca5580f76bd1c824b
 	}
 	@RequestMapping(value="/CheckStatus",params={"buildid"},method=RequestMethod.GET)	
 	public JSONObject CheckStatus(@RequestParam("buildid") long buildid) throws Exception 
@@ -291,7 +287,7 @@ public class JenkinsJobs {
 		}
 		return null;
 	}	
-<<<<<<< HEAD
+
 	@RequestMapping(value="/StartjobsWithParams",params={"buildid","buildname"},method=RequestMethod.POST)	
 	//public JSONObject StartJobWithParams(@RequestParam("buildid") long buildid,@RequestParam("buildname") String buildname,@RequestParam("Params") HashMap<String, String> Params) throws Exception 
 	public void StartjobsWithParams(long buildid,String buildname,@RequestBody Map<String, String> Params) throws Exception
@@ -314,12 +310,10 @@ public class JenkinsJobs {
 	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
 	public void StopJob() throws Exception 
 	{
-=======
 			
 	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
 	public void StopJob() throws Exception 
 	{
->>>>>>> bae663effd73cc48aa109f0ca5580f76bd1c824b
 	        try{				
 			
 			BuildThread b = new BuildThread();
@@ -330,10 +324,6 @@ public class JenkinsJobs {
 	         throw e;
 	     }
 		
-<<<<<<< HEAD
-=======
-	
->>>>>>> bae663effd73cc48aa109f0ca5580f76bd1c824b
 	
 	
 	}
