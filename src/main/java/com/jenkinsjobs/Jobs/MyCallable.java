@@ -59,7 +59,11 @@ public class MyCallable implements Callable<String> {
         //create a list to hold the Future object associated with Callable
         List<Future<String>> list = new ArrayList<Future<String>>();
         //Create MyCallable instance
+<<<<<<< HEAD
         
+=======
+       
+>>>>>>> bae663effd73cc48aa109f0ca5580f76bd1c824b
         Callable<String> callable = new MyCallable(jenkins,"testjob2");
         //for(int i=0; i< 1; i++){
             //submit Callable tasks to be executed by thread pool
