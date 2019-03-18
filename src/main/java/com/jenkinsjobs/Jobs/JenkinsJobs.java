@@ -142,8 +142,8 @@ public class JenkinsJobs {
 	       for(int j=0; j< Param.getChildNodes().getLength(); j++)
 	        	{
 	    	   		Node ParamType = Param.getChildNodes().item(j).getNextSibling();
-	    	   		if(ParamType.getNodeType()==org.dom4j.Node.ELEMENT_NODE)
-	    	   		{	            	
+	    	   		/*if(ParamType.getNodeType()==org.dom4j.Node.ELEMENT_NODE)
+	    	   		{	*/            	
 	    	   		
 	            	if(ParamType != null && ParamType.hasChildNodes())
 	            	{	
@@ -213,7 +213,7 @@ public class JenkinsJobs {
 	            	}	             	            	
 	        	}
 	        	}
-	         }
+	         //}
 	   	}
 		  
 		System.out.println("After converting string to xml :"+doc.getFirstChild().getNodeName());	
