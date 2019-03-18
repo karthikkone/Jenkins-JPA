@@ -195,7 +195,7 @@ public class JenkinsJobs {
 	         	    	   	if(temp2!=null && temp2.getNodeType()==org.dom4j.Node.ELEMENT_NODE)
 	    	    	   		{	
 	         	    	   		System.out.println("temp 2 :"+temp2.getNodeName()+" : "+temp2.getChildNodes().item(0).getNodeValue());
-	         	    	   	choiceJobParams.setValue(temp2.getChildNodes().item(0).getNodeValue());
+	         	    	   	choiceJobParams.setValue(/*temp2.getChildNodes().item(0).getNodeValue()*/"NA");
 	         	    	   	choices.add(temp2.getChildNodes().item(0).getNodeValue());
 	         	    	   	
 	    	    	   		}
