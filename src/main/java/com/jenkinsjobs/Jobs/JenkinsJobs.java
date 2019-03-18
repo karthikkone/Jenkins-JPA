@@ -131,8 +131,8 @@ public class JenkinsJobs {
 		JSONObject Jsonobj = new JSONObject();	 
 		HashMap<String, String> Paramtypes = new HashMap<String, String>();
 		HashMap<String, String>  Params = new HashMap<String, String>();
-		//jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
-		jenkins = new JenkinsServer(new URI("http://localhost:8080/"), "kirti", "kirti");
+		jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+		//jenkins = new JenkinsServer(new URI("http://localhost:8080/"), "kirti", "kirti");
 		JobWithDetails jobinfo = jenkins.getJob(buildname);
 		String jobxml = jenkins.getJobXml(buildname);		
 		System.out.println("XML :"+jobxml);	
