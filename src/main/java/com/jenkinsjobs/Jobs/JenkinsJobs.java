@@ -60,10 +60,8 @@ public class JenkinsJobs {
 	
 	/*@Value("${jobs.url}")
     private String Url;
-
     @Value("${jobs.username}")
     private String Username;
-
     @Value("${jobs.password}")
     private String password;*/
     public JenkinsServer jenkins;
@@ -302,11 +300,7 @@ public class JenkinsJobs {
 		}
 		//return null;
 		
-	}		
-	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
-	public void StopJob() throws Exception 
-	{
-			
+	}			
 	@RequestMapping(value="/Stopjobs",method=RequestMethod.GET)
 	public void StopJob() throws Exception 
 	{
