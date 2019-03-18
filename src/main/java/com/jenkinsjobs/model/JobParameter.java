@@ -4,15 +4,17 @@ public class JobParameter {
 	private String paramName;
 	private String value;
 	private String paramType;
+	private List<String> choices;
 	
-	public JobParameter() {
-		super();
-	}
 	public String getParamName() {
 		return paramName;
 	}
 	public void setParamName(String paramName) {
 		this.paramName = paramName;
+	}
+
+	public JobParameter() {
+		super();
 	}
 	public String getValue() {
 		return value;
@@ -26,10 +28,18 @@ public class JobParameter {
 	public void setParamType(String paramType) {
 		this.paramType = paramType;
 	}
+	
+	public List<String> getChoices() {
+		return choices;
+	}
+	public void setChoices(List<String> choices) {
+		this.choices = choices;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((choices == null) ? 0 : choices.hashCode());
 		result = prime * result + ((paramName == null) ? 0 : paramName.hashCode());
 		result = prime * result + ((paramType == null) ? 0 : paramType.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
@@ -44,6 +54,11 @@ public class JobParameter {
 		if (getClass() != obj.getClass())
 			return false;
 		JobParameter other = (JobParameter) obj;
+		if (choices == null) {
+			if (other.choices != null)
+				return false;
+		} else if (!choices.equals(other.choices))
+			return false;
 		if (paramName == null) {
 			if (other.paramName != null)
 				return false;
@@ -63,8 +78,8 @@ public class JobParameter {
 	}
 	@Override
 	public String toString() {
-		return "JobParameter [paramName=" + paramName + ", value=" + value + ", paramType=" + paramType + "]";
+		return "JobParameter [paramName=" + paramName + ", value=" + value + ", paramType=" + paramType + ", choices="
+				+ choices + "]";
 	}
-	
 	
 }
