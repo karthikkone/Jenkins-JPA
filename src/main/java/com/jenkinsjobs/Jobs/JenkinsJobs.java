@@ -181,10 +181,11 @@ public class JenkinsJobs {
 	            	 case "hudson.model.ChoiceParameterDefinition":
 	            		JobParameter choiceJobParams = new JobParameter();
 	            		 Node choiceParamName = ParamType.getChildNodes().item(0).getNextSibling();	
-				 choiceJobParams.setParamName(choiceParamName.getChildNodes().item(0).getNodeValue());		            	 
+	            		 choiceJobParams.setParamName(choiceParamName.getChildNodes().item(0).getNodeValue());		            	 
 		            	 choiceJobParams.setParamType(ParamType.getNodeName());
 	            		 Node temp = ParamType.getChildNodes().item(4).getNextSibling();	            		 
 	            		 Node temp1 = temp.getFirstChild().getNextSibling();
+	            		 List<String> choices = new ArrayList<String>();
 	            		 System.out.println("choice childs 4:"+temp1.getFirstChild().getNextSibling().getNodeName());
 	            		 if(temp1.hasChildNodes())
 	            		 {
@@ -195,10 +196,15 @@ public class JenkinsJobs {
 	    	    	   		{	
 	         	    	   		System.out.println("temp 2 :"+temp2.getNodeName()+" : "+temp2.getChildNodes().item(0).getNodeValue());
 	         	    	   	choiceJobParams.setValue(temp2.getChildNodes().item(0).getNodeValue());
+	         	    	   	choices.add(temp2.getChildNodes().item(0).getNodeValue());
+	         	    	   	
 	    	    	   		}
+	         	    	   
 	    	    	   		}
-	         	        }           		   
-		     	
+	         	        }           
+	            		 for(int c=0;c<choices.size();c++)
+	            		 {System.out.println("choiceeessss :"+choices.get(c));}
+	            		 choiceJobParams.setChoices(choices);
 		            	 Params.put(choiceParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());		            	
 		            	 paramlist.add(choiceJobParams);
 	            		 break;
