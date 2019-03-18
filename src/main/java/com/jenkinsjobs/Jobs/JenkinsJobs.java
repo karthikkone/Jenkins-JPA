@@ -1,9 +1,7 @@
 package com.jenkinsjobs.Jobs;
 
 import java.io.IOException;
-<<<<<<< HEAD
 import java.io.StringReader;
-=======
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,7 +9,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.Optional;
->>>>>>> bae663effd73cc48aa109f0ca5580f76bd1c824b
 //import java.awt.List;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -186,27 +183,28 @@ public class JenkinsJobs {
 		            	 paramlist.add(booleanJobParams);
 		            	 break;
 	            	 case "hudson.model.ChoiceParameterDefinition":
-	            		 JobParameter choiceJobParams = new JobParameter();
-	            		 NamedNodeMap choices = ParamType.getChildNodes().item(0).getAttributes();
-	            		 //for(int m=0; m< choices.getChildNodes().getLength(); m++)
-	     	        	//{
-	     	    	   		//Node ParamType = Param.getChildNodes().item(j).getNextSibling();
-	     	    	   		//if(ParamType.getNodeType()==org.dom4j.Node.ELEMENT_NODE)
-	     	    	   		//{	 
-	            		 //for (int l=0; l< choiceList.getLength(); l++) {	    	
-	            			    //Node choice = list.item(l);
-	            			    System.out.println("choice node :"+choices);
-		            	 /*Node choiceParamName = ParamType.getChildNodes().item(0).getNextSibling();
-		            	 Node choiceParamValue = ParamType.getChildNodes().item(0).getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling();
-		            	 System.out.println("ParamName in paramtypes:"+choiceParamName.getNodeName());
-		            	 System.out.println("ParamNameValues in paramtypes:"+choiceParamName.getChildNodes().item(0).getNodeValue());
-		            	 System.out.println("ParamValues in paramtypes:"+choiceParamValue.getChildNodes().item(0).getNodeValue());
-		            	 choiceJobParams.setParamName(choiceParamName.getChildNodes().item(0).getNodeValue());
-		            	 choiceJobParams.setValue(choiceParamValue.getChildNodes().item(0).getNodeValue());
+	            		JobParameter choiceJobParams = new JobParameter();
+	            		 Node choiceParamName = ParamType.getChildNodes().item(0).getNextSibling();	
+				 choiceJobParams.setParamName(choiceParamName.getChildNodes().item(0).getNodeValue());		            	 
 		            	 choiceJobParams.setParamType(ParamType.getNodeName());
-		            	 Params.put(choiceParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());
-		            	 //System.out.println("jobparams :"+jobParams);
-		            	 paramlist.add(choiceJobParams);*/
+	            		 Node temp = ParamType.getChildNodes().item(4).getNextSibling();	            		 
+	            		 Node temp1 = temp.getFirstChild().getNextSibling();
+	            		 System.out.println("choice childs 4:"+temp1.getFirstChild().getNextSibling().getNodeName());
+	            		 if(temp1.hasChildNodes())
+	            		 {
+	            			 for(int k=0; k< temp1.getChildNodes().getLength(); k++)
+	         	        	{	            				
+	         	    	   		Node temp2 = temp1.getChildNodes().item(k).getNextSibling();
+	         	    	   	if(temp2!=null && temp2.getNodeType()==org.dom4j.Node.ELEMENT_NODE)
+	    	    	   		{	
+	         	    	   		System.out.println("temp 2 :"+temp2.getNodeName()+" : "+temp2.getChildNodes().item(0).getNodeValue());
+	         	    	   	choiceJobParams.setValue(temp2.getChildNodes().item(0).getNodeValue());
+	    	    	   		}
+	    	    	   		}
+	         	        }           		   
+		     	
+		            	 Params.put(choiceParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());		            	
+		            	 paramlist.add(choiceJobParams);
 	            		 break;
 	            		 
 	            	 }
@@ -249,7 +247,7 @@ public class JenkinsJobs {
 			e.printStackTrace();
 		}
 		return null;
-		jobStat.setBuildstatus("Request In Progress..");
+		/*jobStat.setBuildstatus("Request In Progress..");
 		System.out.println("buildname :"+jobStat.getBuildname());
 		JobStatus selectedJob = jobsRepository.saveAndFlush(jobStat);    
 		Jsonobj.put("Buildid", selectedJob.getBuildid());
@@ -257,10 +255,10 @@ public class JenkinsJobs {
 		Jsonobj.put("Buildstatus", selectedJob.getBuildstatus());
 		Jsonobj.put("httpstatus", "307");
 		Thread b= new Thread(new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository));
-		 b.start();
+		 b.start();*/
 		//BuildThread b = new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository);
 		//b.startJob();
-		return Jsonobj;
+		//return Jsonobj;
 	}
 	@RequestMapping(value="/CheckStatus",params={"buildid"},method=RequestMethod.GET)	
 	public JSONObject CheckStatus(@RequestParam("buildid") long buildid) throws Exception 
