@@ -1,5 +1,5 @@
 package com.jenkinsjobs.model;
-
+import java.util.List;
 public class JobParameter {
 	private String paramName;
 	private String value;
