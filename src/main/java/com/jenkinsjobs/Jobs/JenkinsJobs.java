@@ -153,9 +153,9 @@ public class JenkinsJobs {
 	            	 JobParameter jobParams = new JobParameter();
 	            	 Node ParamName = ParamType.getChildNodes().item(0).getNextSibling();
 	            	 Node ParamValue = ParamType.getChildNodes().item(0).getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling();
-	            	 System.out.println("ParamName in paramtypes:"+ParamName.getNodeName());
+	            	 /*System.out.println("ParamName in paramtypes:"+ParamName.getNodeName());
 	            	 System.out.println("ParamNameValues in paramtypes:"+ParamName.getChildNodes().item(0).getNodeValue());
-	            	 System.out.println("ParamValues in paramtypes:"+ParamValue.getChildNodes().item(0).getNodeValue());
+	            	 System.out.println("ParamValues in paramtypes:"+ParamValue.getChildNodes().item(0).getNodeValue());*/
 	            	 jobParams.setParamName(ParamName.getChildNodes().item(0).getNodeValue());
 			 if(ParamValue.getChildNodes().item(0).getNodeValue() != null)
 	            	 {
