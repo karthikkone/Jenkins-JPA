@@ -157,7 +157,10 @@ public class JenkinsJobs {
 	            	 System.out.println("ParamNameValues in paramtypes:"+ParamName.getChildNodes().item(0).getNodeValue());
 	            	 System.out.println("ParamValues in paramtypes:"+ParamValue.getChildNodes().item(0).getNodeValue());
 	            	 jobParams.setParamName(ParamName.getChildNodes().item(0).getNodeValue());
+			 if(ParamValue.getChildNodes().item(0).getNodeValue() != null)
+	            	 {
 	            	 jobParams.setValue(ParamValue.getChildNodes().item(0).getNodeValue());
+			 }
 	            	 jobParams.setParamType(ParamType.getNodeName());
 	            	 Params.put(ParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());
 	            	 //System.out.println("jobparams :"+jobParams);
@@ -172,7 +175,10 @@ public class JenkinsJobs {
 		            	 System.out.println("ParamNameValues in paramtypes:"+booleanParamName.getChildNodes().item(0).getNodeValue());
 		            	 System.out.println("ParamValues in paramtypes:"+booleanParamValue.getChildNodes().item(0).getNodeValue());
 		            	 booleanJobParams.setParamName(booleanParamName.getChildNodes().item(0).getNodeValue());
+				 if(booleanParamValue.getChildNodes().item(0).getNodeValue() != null)
+		            	 {
 		            	 booleanJobParams.setValue(booleanParamValue.getChildNodes().item(0).getNodeValue());
+				 }
 		            	 booleanJobParams.setParamType(ParamType.getNodeName());
 		            	 Params.put(booleanParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());
 		            	 //System.out.println("jobparams :"+jobParams);
@@ -194,10 +200,11 @@ public class JenkinsJobs {
 	         	    	   		Node temp2 = temp1.getChildNodes().item(k).getNextSibling();
 	         	    	   	if(temp2!=null && temp2.getNodeType()==org.dom4j.Node.ELEMENT_NODE)
 	    	    	   		{	
-	         	    	   		System.out.println("temp 2 :"+temp2.getNodeName()+" : "+temp2.getChildNodes().item(0).getNodeValue());
+					if(temp2.getChildNodes().item(0).getNodeValue() != null) {
+	         	    	   	System.out.println("temp 2 :"+temp2.getNodeName()+" : "+temp2.getChildNodes().item(0).getNodeValue());
 	         	    	   	choiceJobParams.setValue(/*temp2.getChildNodes().item(0).getNodeValue()*/"NA");
 	         	    	   	choices.add(temp2.getChildNodes().item(0).getNodeValue());
-	         	    	   	
+					}
 	    	    	   		}
 	         	    	   
 	    	    	   		}
