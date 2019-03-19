@@ -157,7 +157,7 @@ public class JenkinsJobs {
 	            	 System.out.println("ParamNameValues in paramtypes:"+ParamName.getChildNodes().item(0).getNodeValue());
 	            	 System.out.println("ParamValues in paramtypes:"+ParamValue.getChildNodes().item(0).getNodeValue());*/
 	            	 jobParams.setParamName(ParamName.getChildNodes().item(0).getNodeValue());
-			 if(ParamValue.getChildNodes().item(0).getNodeValue() != null)
+			 if(ParamValue.getChildNodes().item(0).getNodeValue() == null)
 	            	 {
 				 jobParams.setValue("NA");	            	 
 			 }
