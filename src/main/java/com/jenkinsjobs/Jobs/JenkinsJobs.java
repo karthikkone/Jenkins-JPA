@@ -219,6 +219,27 @@ public class JenkinsJobs {
 		            	 Params.put(choiceParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());		            	
 		            	 paramlist.add(choiceJobParams);
 	            		 break;
+			case "hudson.model.TextParameterDefinition":
+	            		 JobParameter multilineParams = new JobParameter();
+		            	 Node multilineParamName = ParamType.getChildNodes().item(0).getNextSibling();
+		            	 Node multilineParamValue = ParamType.getChildNodes().item(0).getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling();
+		            	 System.out.println("ParamName in paramtypes:"+multilineParamName.getNodeName());
+		            	 System.out.println("ParamNameValues in paramtypes:"+multilineParamName.getChildNodes().item(0).getNodeValue());
+		            	 System.out.println("ParamValues in paramtypes:"+multilineParamValue.getChildNodes().item(0).getNodeValue());
+		            	 multilineParams.setParamName(multilineParamName.getChildNodes().item(0).getNodeValue());
+		            	 if(multilineParamValue.getChildNodes().item(0).getNodeValue() != null)
+		            	 {
+		            		 multilineParams.setValue(multilineParamValue.getChildNodes().item(0).getNodeValue());
+		            	 }
+		            	 else
+		            	 {
+		            		 multilineParams.setValue("NA");
+		            	 }
+		            	 multilineParams.setParamType(ParamType.getNodeName());
+		            	 Params.put(multilineParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());
+		            	 //System.out.println("jobparams :"+jobParams);
+		            	 paramlist.add(multilineParams);
+	            		 break;
 	            		 
 	            	 }
 	            	}	
