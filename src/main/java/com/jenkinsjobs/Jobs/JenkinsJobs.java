@@ -161,6 +161,10 @@ public class JenkinsJobs {
 	            	 {
 	            	 jobParams.setValue(ParamValue.getChildNodes().item(0).getNodeValue());
 			 }
+			 else
+	            	 {
+	            		 jobParams.setValue("NA");
+	            	 }
 	            	 jobParams.setParamType(ParamType.getNodeName());
 	            	 Params.put(ParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());
 	            	 //System.out.println("jobparams :"+jobParams);
