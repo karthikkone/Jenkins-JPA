@@ -92,7 +92,7 @@ public class JenkinsJobs {
 	{
 
 		 try {	         
-		 jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");	 	         
+		 //jenkins = 	 	         
 
 	         List<String> jobnames = new ArrayList<String>();    
 	         Map<String, Job> jobs = jenkins.getJobs();
@@ -127,8 +127,8 @@ public class JenkinsJobs {
 		JSONObject Jsonobj = new JSONObject();	 
 		HashMap<String, String> Paramtypes = new HashMap<String, String>();
 		HashMap<String, String>  Params = new HashMap<String, String>();
-		jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
-		//jenkins = new JenkinsServer(new URI("http://localhost:8080/"), "kirti", "kirti");
+		//jenkins = 
+		//jenkins = 
 		JobWithDetails jobinfo = jenkins.getJob(buildname);
 		String jobxml = jenkins.getJobXml(buildname);		
 		System.out.println("XML :"+jobxml);	
@@ -300,8 +300,8 @@ public class JenkinsJobs {
 	{
 		try
 		{
-		//jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agilepro", "infosys@123");
-		jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+		//jenkins = 
+		//jenkins = 
 		JSONObject Jsonobj = new JSONObject();
 		//SessionFactory sessionFactory = s;
 		
@@ -374,7 +374,7 @@ public class JenkinsJobs {
 		
 		
 		try {
-			jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
+			//jenkins = 
 			jenkins.createJob(jobDetails.getJobName(), xmlConfig, true);
 			
 		} catch (URISyntaxException e) {
