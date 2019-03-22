@@ -238,6 +238,27 @@ public class JenkinsJobs {
 		            	 //System.out.println("jobparams :"+jobParams);
 		            	 paramlist.add(multilineParams);
 	            		 break;
+					  case "hudson.model.PasswordParameterDefinition":
+	            		 JobParameter passParams = new JobParameter();
+		            	 Node passParamName = ParamType.getChildNodes().item(0).getNextSibling();
+		            	 Node passParamValue = ParamType.getChildNodes().item(0).getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling();
+		            	 System.out.println("ParamName in paramtypes:"+passParamName.getNodeName());
+		            	 System.out.println("ParamNameValues in paramtypes:"+passParamName.getChildNodes().item(0).getNodeValue());
+		            	 System.out.println("ParamValues in paramtypes:"+passParamValue.getChildNodes().item(0).getNodeValue());
+		            	 passParams.setParamName(passParamName.getChildNodes().item(0).getNodeValue());
+		            	/* if(passParamValue.getChildNodes().item(0).getNodeValue() != null)
+		            	 {
+		            		 passParams.setValue(passParamValue.getChildNodes().item(0).getNodeValue());
+		            	 }
+		            	 else
+		            	 {*/
+		            		 passParams.setValue("NA");
+		            	 //}
+		            	 passParams.setParamType(ParamType.getNodeName());
+		            	 Params.put(passParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());
+		            	 //System.out.println("jobparams :"+jobParams);
+		            	 paramlist.add(passParams);
+	            		 break;
 	            		 
 	            	 }
 	            	}	
@@ -266,7 +287,7 @@ public class JenkinsJobs {
 		buildParams.setBuildName(selectedJob.getBuildname());
 		buildParams.setBuildStatus(selectedJob.getBuildstatus());
 		buildParams.setBuildParams(paramlist);
-		if(Params.size() == 0)
+		if(list.getLength() == 0)
 		{
 		Thread b= new Thread(new BuildThread(selectedJob.getBuildid(),buildname,jobsRepository,Params));
 		b.start();
