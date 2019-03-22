@@ -155,12 +155,12 @@ public class JenkinsJobs {
 	            	 System.out.println("ParamNameValues in paramtypes:"+ParamName.getChildNodes().item(0).getNodeValue());
 	            	 System.out.println("ParamValues in paramtypes:"+ParamValue.getChildNodes().item(0).getNodeValue());*/
 	            	 jobParams.setParamName(ParamName.getChildNodes().item(0).getNodeValue());
-			 if(ParamValue.getChildNodes().item(0).getNodeValue() == null)
+			 if(ParamValue.getChildNodes().getLength() == 0)	            	 
 	            	 {
-				 jobParams.setValue("NA");	            	 
-			 }
-			 else
-	            	 {
+	            		 jobParams.setValue("NA");
+	            	 }
+	            	 else
+	            	 { 
 	            		 jobParams.setValue(ParamValue.getChildNodes().item(0).getNodeValue());
 	            	 }
 	            	 jobParams.setParamType(ParamType.getNodeName());
@@ -177,9 +177,13 @@ public class JenkinsJobs {
 		            	 System.out.println("ParamNameValues in paramtypes:"+booleanParamName.getChildNodes().item(0).getNodeValue());
 		            	 System.out.println("ParamValues in paramtypes:"+booleanParamValue.getChildNodes().item(0).getNodeValue());
 		            	 booleanJobParams.setParamName(booleanParamName.getChildNodes().item(0).getNodeValue());
-				 if(booleanParamValue.getChildNodes().item(0).getNodeValue() != null)
+				 if(booleanParamValue.getChildNodes().getLength() == 0)
+				 {
+	            		 	booleanJobParams.setValue("NA");
+	            	 	 }
+				 else
 		            	 {
-		            	 booleanJobParams.setValue(booleanParamValue.getChildNodes().item(0).getNodeValue());
+		            	 	booleanJobParams.setValue(booleanParamValue.getChildNodes().item(0).getNodeValue());
 				 }
 		            	 booleanJobParams.setParamType(ParamType.getNodeName());
 		            	 Params.put(booleanParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());
@@ -225,20 +229,20 @@ public class JenkinsJobs {
 		            	 System.out.println("ParamNameValues in paramtypes:"+multilineParamName.getChildNodes().item(0).getNodeValue());
 		            	 System.out.println("ParamValues in paramtypes:"+multilineParamValue.getChildNodes().item(0).getNodeValue());
 		            	 multilineParams.setParamName(multilineParamName.getChildNodes().item(0).getNodeValue());
-		            	 if(multilineParamValue.getChildNodes().item(0).getNodeValue() != null)
+		            	 if(multilineParamValue.getChildNodes().getLength() == 0)
 		            	 {
-		            		 multilineParams.setValue(multilineParamValue.getChildNodes().item(0).getNodeValue());
+		            		 multilineParams.setValue("NA");					 
 		            	 }
 		            	 else
 		            	 {
-		            		 multilineParams.setValue("NA");
+		            		multilineParams.setValue(multilineParamValue.getChildNodes().item(0).getNodeValue());
 		            	 }
 		            	 multilineParams.setParamType(ParamType.getNodeName());
 		            	 Params.put(multilineParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());
 		            	 //System.out.println("jobparams :"+jobParams);
 		            	 paramlist.add(multilineParams);
 	            		 break;
-					  case "hudson.model.PasswordParameterDefinition":
+			case "hudson.model.PasswordParameterDefinition":
 	            		 JobParameter passParams = new JobParameter();
 		            	 Node passParamName = ParamType.getChildNodes().item(0).getNextSibling();
 		            	 Node passParamValue = ParamType.getChildNodes().item(0).getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling();
