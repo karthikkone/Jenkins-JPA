@@ -396,7 +396,7 @@ public class JenkinsJobs {
 		
 		
 		try {
-			//jenkins = 
+			jenkins = new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234"); 
 			jenkins.createJob(jobDetails.getJobName(), xmlConfig, true);
 			
 		} catch (URISyntaxException e) {
