@@ -280,7 +280,7 @@ public class JenkinsJobs {
 		System.out.println("After converting string to xml :"+doc.getFirstChild().getNodeName());	
 		JobStatus jobStat = new JobStatus();
 		jobStat.setBuildname(buildname);
-		jobStat.setBuildstatus("In Progress");	
+		jobStat.setBuildstatus("Request In progress..");	
 		JobStatus selectedJob = jobsRepository.saveAndFlush(jobStat);   
 		Jsonobj.put("Buildid", selectedJob.getBuildid());
 		Jsonobj.put("Buildname", selectedJob.getBuildname());
