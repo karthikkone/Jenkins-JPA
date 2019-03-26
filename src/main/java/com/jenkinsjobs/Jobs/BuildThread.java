@@ -54,7 +54,7 @@ public class BuildThread implements Runnable {
 	@Override
 	public void run() {
 		try {		
-			//jenkins = 
+			jenkins =  new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234"); 
 			
 	//while(running)
 		//{	
@@ -121,7 +121,7 @@ public class BuildThread implements Runnable {
 	       //running = false;
 	       //interrupt();
 	       try {	       
-		//jenkins = 
+		jenkins =  new JenkinsServer(new URI("https://kone.iagilepro.com"), "agile.pro@kone.com", "infy1234");
 		while(queueItem == null)
 		{
 	           Thread.sleep(50L);
