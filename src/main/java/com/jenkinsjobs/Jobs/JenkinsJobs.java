@@ -157,7 +157,7 @@ public class JenkinsJobs {
 	            	 jobParams.setParamName(ParamName.getChildNodes().item(0).getNodeValue());
 			 if(ParamValue.getChildNodes().getLength() == 0)	            	 
 	            	 {
-	            		 jobParams.setValue("NA");
+	            		 jobParams.setValue("");
 	            	 }
 	            	 else
 	            	 { 
@@ -208,7 +208,7 @@ public class JenkinsJobs {
 	    	    	   		{	
 					if(temp2.getChildNodes().item(0).getNodeValue() != null) {
 	         	    	   	System.out.println("temp 2 :"+temp2.getNodeName()+" : "+temp2.getChildNodes().item(0).getNodeValue());
-	         	    	   	choiceJobParams.setValue(/*temp2.getChildNodes().item(0).getNodeValue()*/"NA");
+	         	    	   	choiceJobParams.setValue(/*temp2.getChildNodes().item(0).getNodeValue()*/"");
 	         	    	   	choices.add(temp2.getChildNodes().item(0).getNodeValue());
 					}
 	    	    	   		}
@@ -231,7 +231,7 @@ public class JenkinsJobs {
 		            	 multilineParams.setParamName(multilineParamName.getChildNodes().item(0).getNodeValue());
 		            	 if(multilineParamValue.getChildNodes().getLength() == 0)
 		            	 {
-		            		 multilineParams.setValue("NA");					 
+		            		 multilineParams.setValue("");					 
 		            	 }
 		            	 else
 		            	 {
@@ -256,7 +256,7 @@ public class JenkinsJobs {
 		            	 }
 		            	 else
 		            	 {*/
-		            		 passParams.setValue("NA");
+		            		 passParams.setValue("");
 		            	 //}
 		            	 passParams.setParamType(ParamType.getNodeName());
 		            	 Params.put(passParamName.getChildNodes().item(0).getNodeValue(), ParamType.getNodeName());
